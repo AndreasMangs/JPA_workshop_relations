@@ -1,10 +1,8 @@
 package se.lexicon.jpa_workshop.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Book {
@@ -15,6 +13,9 @@ public class Book {
     String isbn;
     String title;
     int maxLoanDays;
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.LAZY)
+    @JoinTable(name = "author_id_book_id", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
+    Set<Author> authors;
 
     public Book(int bookId, String isbn, String title, int maxLoanDays) {
         this.bookId = bookId;
