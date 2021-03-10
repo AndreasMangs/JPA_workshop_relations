@@ -2,6 +2,7 @@ package se.lexicon.jpa_workshop.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,6 +21,9 @@ public class AppUser {
     )
     @JoinColumn(name = "appuser_details_id", table = "app_user")
     Details userDetails;
+    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinTable(name = "appuser_id_bookloan_id ", joinColumns = @JoinColumn (name = "app_user_id"), inverseJoinColumns = @JoinColumn(name = "book_loan_id"))
+    List<BookLoan> loans;
 
     public AppUser(int appUserId, String username, String password, LocalDate regDate, Details userdetails) {
         this.appUserId = appUserId;
