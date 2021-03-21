@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DirtiesContext
 class BookDAORepositoryTest {
 
-    @Autowired private BookDAO testObject;
+    @Autowired private BookDAORepository testObject;
     @Autowired private TestEntityManager em;
 
     private Book savedBook;

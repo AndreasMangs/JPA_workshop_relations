@@ -2,6 +2,7 @@ package se.lexicon.jpa_workshop.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,10 +20,9 @@ public class AppUser {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "appuser_details_id", table = "app_user")
+    @JoinColumn(name = "app_user_details_id", table = "app_user")
     Details userDetails;
-    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinTable(name = "appuser_id_bookloan_id ", joinColumns = @JoinColumn (name = "app_user_id"), inverseJoinColumns = @JoinColumn(name = "book_loan_id"))
+    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.REFRESH}, mappedBy = "app_user")
     List<BookLoan> loans;
 
     public AppUser(int appUserId, String username, String password, LocalDate regDate, Details userdetails) {
@@ -64,12 +64,16 @@ public class AppUser {
         this.regDate = regDate;
     }
 
-    public Details getUserdetails() {
+    public Details getUserDetails() {
         return userDetails;
     }
 
-    public void setUserdetails(Details userdetails) {
-        this.userDetails = userdetails;
+    public void setUserDetails(Details userDetails) {
+        this.userDetails = userDetails;
+    }
+
+    public void setLoans(AppUser appUser) {
+        this.loans = new ArrayList<>();
     }
 
     @Override
